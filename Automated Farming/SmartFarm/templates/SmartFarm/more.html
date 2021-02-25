@@ -1,0 +1,52 @@
+
+{% load airplanetags %}
+
+<script src = "{% airplane 'https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js' %}"></script>
+<center><div class="chart-container" style="width: 80vw;">
+	<h3>Predicted crop: {{ object.predicted_crop }}</h3>
+<canvas id="myChart"></canvas>
+</div>
+</center>
+<script>
+var ctx = document.getElementById('myChart').getContext('2d');
+var myChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: ['Humidity', 'Temperature', 'Moisture'],
+        datasets: [{
+        		label: 'Sample readings',
+            data: [{{ object.humidity }}, {{ object.temperature }},{{ object.moisture }}],
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                 'rgba(255, 99, 132, 0.2)',
+                 'rgba(255, 99, 132, 0.2)',
+            ],
+            borderWidth: 2
+        },
+        	{label: 'Optimal value for {{ object.predicted_crop }}',
+            data: [12, 8, 12],
+            backgroundColor: [
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+            ],
+            borderWidth: 2}
+    ]},
+    options: {
+    	legend: {
+    			position:'bottom',
+                labels: {
+                    fontColor: "blue",
+                    fontSize: 18
+                }
+            },
+			scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero: true
+                }
+            }]
+        }
+    }
+});
+</script>
